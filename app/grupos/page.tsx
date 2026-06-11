@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { grupos } from "../data/grupos";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "@/lib/supabase";
+import GrupoSortable from "../components/GrupoSortable";
 
 export default function GruposPage() {
   const { user } = useAuth();
@@ -20,14 +21,14 @@ export default function GruposPage() {
   const [cargando, setCargando] = useState(true);
 
   const FECHA_CIERRE = new Date(
-  "2026-06-11T13:00:00"
-);
+    "2026-06-11T13:00:00"
+  );
 
-const [tiempoRestante, setTiempoRestante] =
-  useState("");
+  const [tiempoRestante, setTiempoRestante] =
+    useState("");
 
-const cerrado =
-  new Date() > FECHA_CIERRE;
+  const cerrado =
+    new Date() > FECHA_CIERRE;
 
   useEffect(() => {
     const cargarPrediccion = async () => {
@@ -43,7 +44,9 @@ const cerrado =
       if (data) {
         setPredicciones(data.data);
         setYaEntrego(true);
-        setMensaje("✅ Ya entregaste tu predicción");
+        setMensaje(
+          "✅ Ya entregaste tu predicción"
+        );
       }
 
       setCargando(false);
@@ -52,43 +55,53 @@ const cerrado =
     cargarPrediccion();
   }, [user]);
 
-  const mover = (
-    grupo: string,
-    index: number,
-    direccion: "up" | "down"
-  ) => {
-    if (yaEntrego) return;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const ahora = new Date();
 
-    const copia = {
-      ...predicciones,
-    };
+      const diferencia =
+        FECHA_CIERRE.getTime() -
+        ahora.getTime();
 
-    const equipos = [...copia[grupo]];
+      if (diferencia <= 0) {
+        setTiempoRestante(
+          "🔒 Pronósticos cerrados"
+        );
+        return;
+      }
 
-    if (direccion === "up" && index > 0) {
-      [equipos[index], equipos[index - 1]] = [
-        equipos[index - 1],
-        equipos[index],
-      ];
-    }
+      const dias = Math.floor(
+        diferencia /
+          (1000 * 60 * 60 * 24)
+      );
 
-    if (
-      direccion === "down" &&
-      index < equipos.length - 1
-    ) {
-      [equipos[index], equipos[index + 1]] = [
-        equipos[index + 1],
-        equipos[index],
-      ];
-    }
+      const horas = Math.floor(
+        (diferencia %
+          (1000 * 60 * 60 * 24)) /
+          (1000 * 60 * 60)
+      );
 
-    copia[grupo] = equipos;
+      const minutos = Math.floor(
+        (diferencia %
+          (1000 * 60 * 60)) /
+          (1000 * 60)
+      );
 
-    setPredicciones(copia);
-  };
+      setTiempoRestante(
+        `${dias}d ${horas}h ${minutos}m`
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const guardarPrediccion = async () => {
-    if (!user || yaEntrego) return;
+    if (
+      !user ||
+      yaEntrego ||
+      cerrado
+    )
+      return;
 
     setGuardando(true);
     setMensaje("");
@@ -126,67 +139,58 @@ const cerrado =
 
   return (
     <main className="max-w-7xl mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-8">
+      <h1 className="text-4xl font-bold mb-4">
         📋 Fase de Grupos
       </h1>
 
+      <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-8">
+        <div className="font-bold">
+          ⏳ Cierre de pronósticos
+        </div>
+
+        <div className="text-xl mt-2">
+          {cerrado
+            ? "🔒 Pronósticos cerrados"
+            : tiempoRestante}
+        </div>
+      </div>
+
       <p className="mb-8 text-gray-600">
-        Ordena los equipos según cómo crees
-        que terminarán los grupos.
+        Arrastra los equipos para
+        ordenar cómo crees que
+        terminarán los grupos.
       </p>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {grupos.map((grupo) => (
           <div
             key={grupo.letra}
-            className="bg-white shadow rounded-xl p-4"
+            className="bg-white shadow-lg rounded-2xl p-5"
           >
             <h2 className="text-2xl font-bold mb-4">
               Grupo {grupo.letra}
             </h2>
 
-            {predicciones[grupo.letra].map(
-              (equipo, index) => (
-                <div
-                  key={equipo}
-                  className="flex items-center justify-between border rounded-lg p-2 mb-2"
-                >
-                  <span>
-                    {index + 1}. {equipo}
-                  </span>
-
-                  <div className="flex gap-2">
-                    <button
-                      disabled={yaEntrego}
-                      onClick={() =>
-                        mover(
-                          grupo.letra,
-                          index,
-                          "up"
-                        )
-                      }
-                      className="px-2 py-1 bg-gray-200 rounded disabled:opacity-40"
-                    >
-                      ⬆️
-                    </button>
-
-                    <button
-                      disabled={yaEntrego}
-                      onClick={() =>
-                        mover(
-                          grupo.letra,
-                          index,
-                          "down"
-                        )
-                      }
-                      className="px-2 py-1 bg-gray-200 rounded disabled:opacity-40"
-                    >
-                      ⬇️
-                    </button>
-                  </div>
-                </div>
-              )
-            )}
+            <GrupoSortable
+              equipos={
+                predicciones[
+                  grupo.letra
+                ]
+              }
+              disabled={
+                yaEntrego ||
+                cerrado
+              }
+              onChange={(
+                nuevosEquipos
+              ) => {
+                setPredicciones({
+                  ...predicciones,
+                  [grupo.letra]:
+                    nuevosEquipos,
+                });
+              }}
+            />
           </div>
         ))}
       </div>
@@ -194,9 +198,14 @@ const cerrado =
       <div className="mt-10 text-center">
         {!yaEntrego ? (
           <button
-            onClick={guardarPrediccion}
-            disabled={guardando}
-            className="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700"
+            onClick={
+              guardarPrediccion
+            }
+            disabled={
+              guardando ||
+              cerrado
+            }
+            className="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 disabled:opacity-50"
           >
             {guardando
               ? "Guardando..."
