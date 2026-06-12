@@ -21,7 +21,7 @@ export default function GruposPage() {
   const [cargando, setCargando] = useState(true);
 
   const FECHA_CIERRE = new Date(
-    "2026-06-11T13:00:00"
+    "2026-06-12T13:00:00"
   );
 
   const [tiempoRestante, setTiempoRestante] =
