@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const FECHA_CIERRE = new Date(
-    "2026-06-11T13:00:00"
+    "2026-07-02T13:00:00"
   );
 
   const [tiempo, setTiempo] = useState("");
@@ -58,7 +58,8 @@ export default function DashboardPage() {
       );
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () =>
+      clearInterval(interval);
   }, []);
 
   if (loading) {
@@ -69,15 +70,13 @@ export default function DashboardPage() {
     );
   }
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const esAdmin =
     ADMINS.includes(user.username);
 
   return (
-    <main className="max-w-5xl mx-auto p-8">
+    <main className="max-w-6xl mx-auto p-8">
 
       <div className="mb-8">
         <h1 className="text-4xl font-bold">
@@ -90,69 +89,89 @@ export default function DashboardPage() {
       </div>
 
       <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-8">
+
         <div className="font-bold">
-          ⏳ Cierre de pronósticos
+          ⏳ Próximo cierre
         </div>
 
         <div className="text-xl mt-2">
           {tiempo}
         </div>
+
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
 
         <Link
           href="/grupos"
           className="bg-blue-600 text-white p-8 rounded-2xl hover:bg-blue-700 transition"
         >
-          <div className="text-3xl mb-2">
+          <div className="text-4xl">
             📋
           </div>
 
-          <div className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold mt-4">
             Fase de Grupos
+          </h2>
+
+          <p className="mt-3 text-blue-100">
+            Consulta tu predicción de la fase de grupos.
+          </p>
+        </Link>
+
+        <Link
+          href="/dieciseisavos"
+          className="bg-purple-600 text-white p-8 rounded-2xl hover:bg-purple-700 transition"
+        >
+          <div className="text-4xl">
+            ⚽
           </div>
 
-          <div className="mt-2 text-blue-100">
-            Realiza tu predicción.
-          </div>
+          <h2 className="text-2xl font-bold mt-4">
+            Dieciseisavos
+          </h2>
+
+          <p className="mt-3 text-purple-100">
+            Pronostica los partidos eliminatorios.
+          </p>
         </Link>
 
         <Link
           href="/ranking"
           className="bg-yellow-500 text-white p-8 rounded-2xl hover:bg-yellow-600 transition"
         >
-          <div className="text-3xl mb-2">
+          <div className="text-4xl">
             🏆
           </div>
 
-          <div className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold mt-4">
             Ranking
-          </div>
+          </h2>
 
-          <div className="mt-2 text-yellow-100">
-            Consulta la clasificación.
-          </div>
+          <p className="mt-3 text-yellow-100">
+            Consulta la clasificación general.
+          </p>
         </Link>
 
         {esAdmin && (
           <Link
             href="/admin"
-            className="bg-red-600 text-white p-8 rounded-2xl hover:bg-red-700 transition md:col-span-2"
+            className="bg-red-600 text-white p-8 rounded-2xl hover:bg-red-700 transition"
           >
-            <div className="text-3xl mb-2">
+            <div className="text-4xl">
               🔧
             </div>
 
-            <div className="text-2xl font-bold">
-              Panel de Administración
-            </div>
+            <h2 className="text-2xl font-bold mt-4">
+              Panel Admin
+            </h2>
 
-            <div className="mt-2 text-red-100">
+            <p className="mt-3 text-red-100">
               Gestiona usuarios y resultados oficiales.
-            </div>
+            </p>
           </Link>
         )}
+
       </div>
 
       <button
@@ -160,7 +179,7 @@ export default function DashboardPage() {
           logout();
           router.push("/");
         }}
-        className="mt-8 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700"
+        className="mt-10 bg-red-600 text-white px-8 py-3 rounded-xl hover:bg-red-700"
       >
         Cerrar Sesión
       </button>
