@@ -10,7 +10,7 @@ export default function DieciseisavosPage() {
   const { user } = useAuth();
 
   const FECHA_CIERRE = new Date(
-    "2026-07-02T13:00:00"
+    "2026-06-29T15:00:00"
   );
 
   const cerrado = new Date() > FECHA_CIERRE;
