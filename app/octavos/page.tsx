@@ -10,7 +10,7 @@ export default function OctavosPage() {
   const { user } = useAuth();
 
   const FECHA_CIERRE = new Date(
-    "2026-07-06T13:00:00"
+    "2026-07-04T11:00:00"
   );
 
   const cerrado =

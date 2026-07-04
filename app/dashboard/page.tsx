@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const FECHA_CIERRE = new Date(
-    "2026-06-29T15:50:00"
+    "2026-07-04T11:00:00"
   );
 
   const [tiempo, setTiempo] =
