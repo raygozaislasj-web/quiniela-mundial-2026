@@ -15,7 +15,8 @@ export default function DashboardPage() {
     "2026-06-29T15:50:00"
   );
 
-  const [tiempo, setTiempo] = useState("");
+  const [tiempo, setTiempo] =
+    useState("");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -32,7 +33,9 @@ export default function DashboardPage() {
         ahora.getTime();
 
       if (diferencia <= 0) {
-        setTiempo("🔒 Pronósticos cerrados");
+        setTiempo(
+          "🔒 Pronósticos cerrados"
+        );
         return;
       }
 
@@ -74,8 +77,7 @@ export default function DashboardPage() {
 
   const esAdmin =
     ADMINS.includes(user.username);
-
-  return (
+      return (
     <main className="max-w-6xl mx-auto p-8">
 
       <div className="mb-8">
@@ -100,7 +102,7 @@ export default function DashboardPage() {
 
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         <Link
           href="/grupos"
@@ -132,7 +134,24 @@ export default function DashboardPage() {
           </h2>
 
           <p className="mt-3 text-purple-100">
-            Pronostica los partidos eliminatorios.
+            Pronostica los partidos de dieciseisavos.
+          </p>
+        </Link>
+
+        <Link
+          href="/octavos"
+          className="bg-indigo-600 text-white p-8 rounded-2xl hover:bg-indigo-700 transition"
+        >
+          <div className="text-4xl">
+            ⚽
+          </div>
+
+          <h2 className="text-2xl font-bold mt-4">
+            Octavos
+          </h2>
+
+          <p className="mt-3 text-indigo-100">
+            Pronostica los partidos de octavos.
           </p>
         </Link>
 
