@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const FECHA_CIERRE = new Date(
-    "2026-07-04T11:00:00"
+    "2026-06-29T15:50:00"
   );
 
   const [tiempo, setTiempo] =
@@ -78,7 +78,7 @@ export default function DashboardPage() {
   const esAdmin =
     ADMINS.includes(user.username);
       return (
-    <main className="max-w-6xl mx-auto p-8">
+    <main className="max-w-7xl mx-auto p-8">
 
       <div className="mb-8">
         <h1 className="text-4xl font-bold">
@@ -91,7 +91,6 @@ export default function DashboardPage() {
       </div>
 
       <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-8">
-
         <div className="font-bold">
           ⏳ Próximo cierre
         </div>
@@ -99,7 +98,6 @@ export default function DashboardPage() {
         <div className="text-xl mt-2">
           {tiempo}
         </div>
-
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -108,16 +106,14 @@ export default function DashboardPage() {
           href="/grupos"
           className="bg-blue-600 text-white p-8 rounded-2xl hover:bg-blue-700 transition"
         >
-          <div className="text-4xl">
-            📋
-          </div>
+          <div className="text-4xl">📋</div>
 
           <h2 className="text-2xl font-bold mt-4">
             Fase de Grupos
           </h2>
 
           <p className="mt-3 text-blue-100">
-            Consulta tu predicción de la fase de grupos.
+            Realiza tu predicción.
           </p>
         </Link>
 
@@ -125,16 +121,14 @@ export default function DashboardPage() {
           href="/dieciseisavos"
           className="bg-purple-600 text-white p-8 rounded-2xl hover:bg-purple-700 transition"
         >
-          <div className="text-4xl">
-            ⚽
-          </div>
+          <div className="text-4xl">⚽</div>
 
           <h2 className="text-2xl font-bold mt-4">
             Dieciseisavos
           </h2>
 
           <p className="mt-3 text-purple-100">
-            Pronostica los partidos de dieciseisavos.
+            Pronostica esta ronda.
           </p>
         </Link>
 
@@ -142,16 +136,29 @@ export default function DashboardPage() {
           href="/octavos"
           className="bg-indigo-600 text-white p-8 rounded-2xl hover:bg-indigo-700 transition"
         >
-          <div className="text-4xl">
-            ⚽
-          </div>
+          <div className="text-4xl">⚽</div>
 
           <h2 className="text-2xl font-bold mt-4">
             Octavos
           </h2>
 
           <p className="mt-3 text-indigo-100">
-            Pronostica los partidos de octavos.
+            Pronostica esta ronda.
+          </p>
+        </Link>
+
+        <Link
+          href="/cuartos"
+          className="bg-cyan-600 text-white p-8 rounded-2xl hover:bg-cyan-700 transition"
+        >
+          <div className="text-4xl">⚽</div>
+
+          <h2 className="text-2xl font-bold mt-4">
+            Cuartos
+          </h2>
+
+          <p className="mt-3 text-cyan-100">
+            Pronostica esta ronda.
           </p>
         </Link>
 
@@ -159,16 +166,14 @@ export default function DashboardPage() {
           href="/ranking"
           className="bg-yellow-500 text-white p-8 rounded-2xl hover:bg-yellow-600 transition"
         >
-          <div className="text-4xl">
-            🏆
-          </div>
+          <div className="text-4xl">🏆</div>
 
           <h2 className="text-2xl font-bold mt-4">
             Ranking
           </h2>
 
           <p className="mt-3 text-yellow-100">
-            Consulta la clasificación general.
+            Consulta la clasificación.
           </p>
         </Link>
 
@@ -177,16 +182,14 @@ export default function DashboardPage() {
             href="/admin"
             className="bg-red-600 text-white p-8 rounded-2xl hover:bg-red-700 transition"
           >
-            <div className="text-4xl">
-              🔧
-            </div>
+            <div className="text-4xl">🔧</div>
 
             <h2 className="text-2xl font-bold mt-4">
               Panel Admin
             </h2>
 
             <p className="mt-3 text-red-100">
-              Gestiona usuarios y resultados oficiales.
+              Gestiona usuarios y resultados.
             </p>
           </Link>
         )}
