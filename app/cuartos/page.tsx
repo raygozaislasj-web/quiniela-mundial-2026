@@ -10,7 +10,7 @@ export default function CuartosPage() {
   const { user } = useAuth();
 
   const FECHA_CIERRE = new Date(
-    "2026-07-09T13:00:00"
+    "2026-07-10T13:10:00"
   );
 
   const cerrado =
