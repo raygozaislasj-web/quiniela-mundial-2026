@@ -10,7 +10,7 @@ export default function FinalPage() {
   const { user } = useAuth();
 
   const FECHA_CIERRE = new Date(
-    "2026-07-18T13:00:00"
+    "2026-07-19T13:00:00"
   );
 
   const cerrado =
